@@ -16,10 +16,13 @@ app.get("/convert/:in/:out", async (req, res) => {
     }
   }
 
+  if (req.params.in.toUpperCase() == req.params.out.toUpperCase()) {
+    return res.json(1);
+  }
+
   const results = await yahooFinance.quote(
     `${req.params.in}${req.params.out}=X`
   );
-
   res.json(results.regularMarketPrice);
 });
 
