@@ -13,16 +13,18 @@ async function getConversionRate(from: string, to: string) {
   to = to.toUpperCase();
   if ([from, to].includes("VND")) {
     const vndUsdConversionRate = await yahooFinance.quote(`VND=X`);
-    const usdToConversionRate = await yahooFinance.quote(`USD${to}=X`);
+    const usdConversionRate = await yahooFinance.quote(
+      `${from == "VND" ? from : ""}USD${to == "VND" ? to : ""}=X`
+    );
     if (
       vndUsdConversionRate &&
       vndUsdConversionRate.regularMarketPrice != undefined &&
-      usdToConversionRate &&
-      usdToConversionRate.regularMarketPrice != undefined
+      usdConversionRate &&
+      usdConversionRate.regularMarketPrice != undefined
     ) {
       const conversionRate =
         vndUsdConversionRate.regularMarketPrice *
-        usdToConversionRate.regularMarketPrice;
+        usdConversionRate.regularMarketPrice;
       return conversionRate;
     } else {
       return { error: "Failed currency conversion" };
