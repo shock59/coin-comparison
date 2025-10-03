@@ -9,7 +9,6 @@ const app = express();
 app.use(cors());
 
 app.get("/convert/:in/:out", async (req, res) => {
-  console.log(Object.values(req.params));
   for (const currency of Object.values(req.params)) {
     const upperCurrency = currency.toUpperCase();
     if (!validCurrencies.includes(upperCurrency)) {
