@@ -61,38 +61,48 @@
 <main>
   <h1>Coin Comparison</h1>
 
-  <div class="input-row">
-    <input
-      type="text"
-      bind:value={fromAmountDisplay}
-      onchange={updateToAmount}
-    />
-    <select bind:value={fromCurrency} onchange={updateFromCurrency}>
-      <option value="aud">Australian dollar</option>
-      <option value="eur">Euro</option>
-      <option value="gbp">Pound sterling (British pound)</option>
-      <option value="usd">US Dollar</option>
-    </select>
-  </div>
+  <div id="conversion-form">
+    <div class="input-row">
+      <input
+        type="text"
+        bind:value={fromAmountDisplay}
+        onchange={updateToAmount}
+      />
+      <select bind:value={fromCurrency} onchange={updateFromCurrency}>
+        <option value="aud">Australian dollar</option>
+        <option value="eur">Euro</option>
+        <option value="gbp">Pound sterling (British pound)</option>
+        <option value="usd">US Dollar</option>
+      </select>
+    </div>
 
-  <div class="input-row">
-    <input
-      type="text"
-      bind:value={toAmountDisplay}
-      onchange={updateFromAmount}
-    />
-    <select bind:value={toCurrency} onchange={updateToCurrency}>
-      <option value="aud">Australian dollar</option>
-      <option value="eur">Euro</option>
-      <option value="gbp">Pound sterling (British pound)</option>
-      <option value="usd">US Dollar</option>
-    </select>
+    <div id="arrow">↕</div>
+
+    <div class="input-row">
+      <input
+        type="text"
+        bind:value={toAmountDisplay}
+        onchange={updateFromAmount}
+      />
+      <select bind:value={toCurrency} onchange={updateToCurrency}>
+        <option value="aud">Australian dollar</option>
+        <option value="eur">Euro</option>
+        <option value="gbp">Pound sterling (British pound)</option>
+        <option value="usd">US Dollar</option>
+      </select>
+    </div>
   </div>
 </main>
 
 <style>
   main {
     width: 100%;
+  }
+
+  #conversion-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 22px;
   }
 
   .input-row {
@@ -102,8 +112,6 @@
     border-radius: 10px;
     padding: 8px;
     color: rgba(255, 255, 255, 0.76);
-    font-size: 22px;
-    margin-bottom: 8px;
   }
 
   input,
@@ -123,5 +131,10 @@
 
   select {
     padding-left: 8px;
+  }
+
+  #arrow {
+    margin: 8px 0;
+    color: rgba(255, 255, 255, 0.2);
   }
 </style>
