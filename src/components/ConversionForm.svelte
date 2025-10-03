@@ -1,17 +1,33 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import currencies from "../currencies";
+  import currencies, { type Currency } from "../currencies";
+
+  let {
+    class: className,
+    fromCurrency = $bindable(),
+    toCurrency = $bindable(),
+    fromAmount = $bindable(),
+    toAmount = $bindable(),
+  }: {
+    class: string;
+    fromCurrency: Currency;
+    toCurrency: Currency;
+    fromAmount: number | undefined;
+    toAmount: number | undefined;
+  } = $props();
 
   let conversionRate: number = $state(0);
 
-  let fromCurrency: string = $state("AUD");
-  let toCurrency: string = $state("USD");
+  let fromCurrencyCode: string = $state("AUD");
+  let toCurrencyCode: string = $state("EUR");
 
   let fromAmountDisplay: string = $state("1");
   let toAmountDisplay: string = $state("...");
 
-  let fromAmount: number | undefined = $state(1);
-  let toAmount: number | undefined = $state();
+  function updateCurrenciesFromCodes() {
+    fromCurrency = currencies.find((c) => c.code === fromCurrencyCode)!;
+    toCurrency = currencies.find((c) => c.code === toCurrencyCode)!;
+  }
 
   function updateAmountDisplays() {
     fromAmountDisplay = fromAmount?.toFixed(6) ?? "...";
@@ -20,7 +36,7 @@
 
   async function updateConversion() {
     const response = await fetch(
-      `http://localhost:3000/convert/${fromCurrency}/${toCurrency}`
+      `http://localhost:3000/convert/${fromCurrency.code}/${toCurrency.code}`
     );
     conversionRate = await response.json();
     if (fromAmount == undefined) updateFromAmount();
@@ -39,33 +55,29 @@
     updateAmountDisplays();
   }
 
-  function updateFromCurrency() {
+  function updateCurrency() {
+    updateCurrenciesFromCodes();
     toAmount = undefined;
     updateAmountDisplays();
     updateConversion();
   }
 
-  function updateToCurrency() {
-    fromAmount = undefined;
-    updateAmountDisplays();
-    updateConversion();
-  }
-
   onMount(() => {
+    updateCurrenciesFromCodes();
     fromAmount = Number(fromAmountDisplay);
     updateAmountDisplays();
     updateConversion();
   });
 </script>
 
-<div id="conversion-form">
+<div id="conversion-form" class={className}>
   <div class="input-row">
     <input
       type="text"
       bind:value={fromAmountDisplay}
       onchange={updateToAmount}
     />
-    <select bind:value={fromCurrency} onchange={updateFromCurrency}>
+    <select bind:value={fromCurrencyCode} onchange={updateCurrency}>
       {#each currencies as currency}
         <option value={currency.code}>{currency.name}</option>
       {/each}
@@ -80,7 +92,7 @@
       bind:value={toAmountDisplay}
       onchange={updateFromAmount}
     />
-    <select bind:value={toCurrency} onchange={updateToCurrency}>
+    <select bind:value={toCurrencyCode} onchange={updateCurrency}>
       {#each currencies as currency}
         <option value={currency.code}>{currency.name}</option>
       {/each}
@@ -90,10 +102,11 @@
 
 <style>
   #conversion-form {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin: 0 32px;
     font-size: 22px;
   }
