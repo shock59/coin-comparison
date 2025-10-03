@@ -1,20 +1,21 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import currencies from "./currencies";
 
   let conversionRate: number = $state(0);
 
-  let fromCurrency: string = $state("aud");
-  let toCurrency: string = $state("usd");
+  let fromCurrency: string = $state("AUD");
+  let toCurrency: string = $state("USD");
 
   let fromAmountDisplay: string = $state("1");
-  let toAmountDisplay: string = $state("");
+  let toAmountDisplay: string = $state("...");
 
   let fromAmount: number | undefined = $state(1);
   let toAmount: number | undefined = $state();
 
   function updateAmountDisplays() {
-    fromAmountDisplay = fromAmount?.toFixed(2) ?? "";
-    toAmountDisplay = toAmount?.toFixed(2) ?? "";
+    fromAmountDisplay = fromAmount?.toFixed(6) ?? "...";
+    toAmountDisplay = toAmount?.toFixed(6) ?? "...";
   }
 
   async function updateConversion() {
@@ -22,7 +23,6 @@
       `http://localhost:3000/convert/${fromCurrency}/${toCurrency}`
     );
     conversionRate = await response.json();
-    console.log("!!!");
     if (fromAmount == undefined) updateFromAmount();
     else updateToAmount();
   }
@@ -69,10 +69,9 @@
         onchange={updateToAmount}
       />
       <select bind:value={fromCurrency} onchange={updateFromCurrency}>
-        <option value="aud">Australian dollar</option>
-        <option value="eur">Euro</option>
-        <option value="gbp">Pound sterling (British pound)</option>
-        <option value="usd">US Dollar</option>
+        {#each currencies as currency}
+          <option value={currency.code}>{currency.name}</option>
+        {/each}
       </select>
     </div>
 
@@ -85,10 +84,9 @@
         onchange={updateFromAmount}
       />
       <select bind:value={toCurrency} onchange={updateToCurrency}>
-        <option value="aud">Australian dollar</option>
-        <option value="eur">Euro</option>
-        <option value="gbp">Pound sterling (British pound)</option>
-        <option value="usd">US Dollar</option>
+        {#each currencies as currency}
+          <option value={currency.code}>{currency.name}</option>
+        {/each}
       </select>
     </div>
   </div>
@@ -119,18 +117,31 @@
     border: none;
     outline: none;
     background: none;
-    color: inherit;
     font: inherit;
   }
 
   input {
-    width: 100px;
+    width: 180px;
     border-right: 2px rgba(255, 255, 255, 0.1) solid;
     padding-right: 8px;
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.76) 0%,
+      rgba(255, 255, 255, 0.76) 40%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    color: transparent;
+    background-clip: text;
+    text-align: right;
+  }
+
+  input:focus {
+    color: inherit;
   }
 
   select {
     padding-left: 8px;
+    color: inherit;
   }
 
   #arrow {
