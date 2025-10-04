@@ -1,6 +1,7 @@
 <script lang="ts">
   import CoinDisplay from "./components/CoinDisplay.svelte";
   import ConversionForm from "./components/ConversionForm.svelte";
+  import InfoPanel from "./components/InfoPanel.svelte";
   import type { Currency } from "./currencies";
   import currencies from "./currencies";
 
@@ -50,6 +51,8 @@
 
     <CoinDisplay currency={toCurrency} amount={toAmount ?? 0} />
   </div>
+
+  <InfoPanel />
 </main>
 
 <style>
