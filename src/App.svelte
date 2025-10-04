@@ -9,21 +9,6 @@
   let toCurrency: Currency = $state(currencies[0]);
   let fromAmount: number | undefined = $state();
   let toAmount: number | undefined = $state();
-
-  function countDecimals(num: number) {
-    if (Math.floor(num) === num) return 0;
-    return num.toString().split(".")[1].length || 0;
-  }
-
-  function decideDecimalPlaces() {
-    if (Math.max(fromAmount ?? 0, toAmount ?? 0) > 10) {
-      return 0;
-    }
-    return Math.max(
-      countDecimals(fromAmount ?? 0),
-      countDecimals(toAmount ?? 0)
-    );
-  }
 </script>
 
 <main>
