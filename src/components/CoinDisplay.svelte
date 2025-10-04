@@ -70,6 +70,10 @@
     flex-grow: 1;
   }
 
+  .coin-display > div {
+    height: calc(140px + (16px * 2));
+  }
+
   .coin-display img {
     object-fit: contain;
     height: 140px;
@@ -79,7 +83,7 @@
   .cover {
     background: #242424;
     position: relative;
-    top: -50%;
+    bottom: 166px;
     height: 150px;
   }
 </style>
