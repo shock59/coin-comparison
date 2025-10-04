@@ -1,4 +1,5 @@
 <script lang="ts">
+  import CoinDisplay from "./components/CoinDisplay.svelte";
   import ConversionForm from "./components/ConversionForm.svelte";
   import type { Currency } from "./currencies";
   import currencies from "./currencies";
@@ -27,16 +28,17 @@
 <main>
   <div class="row" id="header-row">
     <div class="grow">
-      {fromCurrency.symbol}{fromAmount?.toFixed(decideDecimalPlaces()) ?? "..."}
+      {fromCurrency.symbol}{fromAmount?.toFixed(fromCurrency.decimalPlaces) ??
+        "..."}
     </div>
-    <div class="center-column">is equivalent to</div>
+    <div class="center-column">≈</div>
     <div class="grow">
-      {toCurrency.symbol}{toAmount?.toFixed(decideDecimalPlaces()) ?? "..."}
+      {toCurrency.symbol}{toAmount?.toFixed(toCurrency.decimalPlaces) ?? "..."}
     </div>
   </div>
 
   <div class="row grow">
-    <div class="coin-display grow"></div>
+    <CoinDisplay currency={fromCurrency} amount={fromAmount ?? 0} />
 
     <ConversionForm
       class="center-column"
@@ -46,7 +48,7 @@
       bind:toAmount
     />
 
-    <div class="coin-display grow"></div>
+    <CoinDisplay currency={toCurrency} amount={toAmount ?? 0} />
   </div>
 </main>
 
@@ -82,8 +84,5 @@
   #header-row .center-column {
     color: rgba(255, 255, 255, 0.66);
     font-size: 48px;
-  }
-
-  .coin-display {
   }
 </style>
