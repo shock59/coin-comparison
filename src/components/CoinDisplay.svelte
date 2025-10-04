@@ -17,12 +17,13 @@
   function decideCoinImages(currency: Currency, amount: number) {
     const denominations = currency.images.toSorted((a, b) => b - a);
     let images: CoinImage[] = [];
+    amount *= 10 ** 6;
     for (let denomination of denominations) {
       console.log(`Denomination: ${denomination}`);
       console.log(`Amount: ${amount}`);
       console.log(`Images: ${images}`);
-      while (amount >= denomination) {
-        amount -= denomination;
+      while (amount >= denomination * 10 ** 6) {
+        amount -= denomination * 10 ** 6;
         images.push({ name: denomination });
       }
     }
