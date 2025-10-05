@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { type Currency } from "../currencies";
 
   type JsonSpan = {
@@ -13,12 +13,25 @@
 
   let { currency, close }: { currency: Currency; close: () => void } = $props();
   let article: ArticleResponse | undefined = $state();
+  let audio: HTMLAudioElement | undefined = $state();
+
+  function playAnthem() {
+    audio = new Audio(`/audio/${currency.code}.ogg`);
+    audio.volume = 0.4;
+    audio.play();
+  }
 
   onMount(async () => {
+    playAnthem();
+
     const response = await fetch(
       `http://127.0.0.1:3000/article/${currency.code}`
     );
     article = (await response.json()) as ArticleResponse;
+  });
+
+  onDestroy(() => {
+    audio?.pause();
   });
 </script>
 
