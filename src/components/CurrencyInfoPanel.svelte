@@ -19,6 +19,7 @@
   function playAnthem() {
     audio = new Audio(`/audio/${currency.code}.ogg`);
     audio.volume = 0.4;
+    audio.loop = true;
     audio.play();
   }
 
