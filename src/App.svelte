@@ -12,6 +12,10 @@
 
   let infoPanel: Currency | undefined = $state();
 
+  function formatNumberWithCommas(n: string | undefined) {
+    return n?.replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? undefined;
+  }
+
   function closeInfoPanel() {
     infoPanel = undefined;
   }
@@ -20,12 +24,15 @@
 <main>
   <div class="row text-row" id="header-row">
     <div class="grow">
-      {fromCurrency.symbol}{fromAmount?.toFixed(fromCurrency.decimalPlaces) ??
-        "..."}
+      {fromCurrency.symbol}{formatNumberWithCommas(
+        fromAmount?.toFixed(fromCurrency.decimalPlaces)
+      ) ?? "..."}
     </div>
     <div class="center-column">≈</div>
     <div class="grow">
-      {toCurrency.symbol}{toAmount?.toFixed(toCurrency.decimalPlaces) ?? "..."}
+      {toCurrency.symbol}{formatNumberWithCommas(
+        toAmount?.toFixed(toCurrency.decimalPlaces)
+      ) ?? "..."}
     </div>
   </div>
 

@@ -14,6 +14,11 @@
     amount: number;
   } = $props();
 
+  function playSound() {
+    const audio = new Audio("/audio/kaching.ogg");
+    audio.play();
+  }
+
   function decideCoinImages(currency: Currency, amount: number) {
     const denominations = currency.denominations.toSorted(
       (a, b) => b.value - a.value
@@ -44,10 +49,12 @@
   {#key amount}
     {#each (() => decideCoinImages(currency, amount ?? 0))() as image}
       <div>
-        <img
-          src="images/{currency.code}/{image.name}.png"
-          alt="{currency.symbol}{image.name.toFixed(currency.decimalPlaces)}"
-        />
+        <button onclick={playSound}>
+          <img
+            src="images/{currency.code}/{image.name}.png"
+            alt="{currency.symbol}{image.name.toFixed(currency.decimalPlaces)}"
+          />
+        </button>
 
         {#if image.coverPercentage}
           <div
@@ -73,6 +80,14 @@
 
   .coin-display > div {
     height: calc(140px + (16px * 2));
+  }
+
+  button {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
   }
 
   .coin-display img {
