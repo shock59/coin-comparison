@@ -9,10 +9,12 @@
   let toCurrency: Currency = $state(currencies[0]);
   let fromAmount: number | undefined = $state();
   let toAmount: number | undefined = $state();
+
+  let infoPanel: Currency | undefined = $state();
 </script>
 
 <main>
-  <div class="row" id="header-row">
+  <div class="row text-row" id="header-row">
     <div class="grow">
       {fromCurrency.symbol}{fromAmount?.toFixed(fromCurrency.decimalPlaces) ??
         "..."}
@@ -37,7 +39,23 @@
     <CoinDisplay currency={toCurrency} amount={toAmount ?? 0} />
   </div>
 
-  <InfoPanel />
+  <div class="row text-row" id="footer-row">
+    <div class="grow">
+      <button onclick={() => (infoPanel = fromCurrency)}
+        >Learn more about the {fromCurrency.name}</button
+      >
+    </div>
+    <div class="center-column"></div>
+    <div class="grow">
+      <button onclick={() => (infoPanel = toCurrency)}
+        >Learn more about the {toCurrency.name}</button
+      >
+    </div>
+  </div>
+
+  {#if infoPanel}
+    <InfoPanel currency={infoPanel} />
+  {/if}
 </main>
 
 <style>
@@ -62,15 +80,23 @@
     width: 445px;
   }
 
-  #header-row {
+  .text-row {
     padding: 16px 0;
-    font-size: 64px;
     text-align: center;
     align-items: center;
+  }
+
+  #header-row {
+    font-size: 64px;
   }
 
   #header-row .center-column {
     color: rgba(255, 255, 255, 0.66);
     font-size: 48px;
+  }
+
+  #footer-row {
+    padding-bottom: 32px;
+    font-size: 22px;
   }
 </style>

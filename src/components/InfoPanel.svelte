@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import currencies from "../currencies";
+  import { type Currency } from "../currencies";
 
   type JsonSpan = {
     text: string;
@@ -11,7 +11,7 @@
     href: string;
   };
 
-  let currency = currencies[1];
+  let { currency }: { currency: Currency } = $props();
   let article: ArticleResponse | undefined = $state();
 
   onMount(async () => {
@@ -24,7 +24,7 @@
 
 <div id="info-panel-container">
   <div id="info-panel">
-    <div id="info-title">About the Australian Dollar</div>
+    <div id="info-title">About the {currency.name}</div>
     <div class="line"></div>
 
     {#if article}
@@ -65,7 +65,7 @@
     display: flex;
     justify-content: center;
     position: fixed;
-    width: 100%;
+    width: 100vw;
     height: 100%;
     top: 0;
     left: 0;
