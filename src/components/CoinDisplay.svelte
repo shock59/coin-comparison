@@ -31,7 +31,8 @@
       const lowestDenomination = denominations[denominations.length - 1];
       images.push({
         name: lowestDenomination.value,
-        coverPercentage: 100 - (amount / lowestDenomination.value) * 100,
+        coverPercentage:
+          100 - (amount / 10 ** 6 / lowestDenomination.value) * 100,
       });
     }
 
