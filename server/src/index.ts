@@ -81,12 +81,13 @@ app.get("/convert/:from/:to", async (req, res) => {
 
 app.get("/article/:currency", async (req, res) => {
   const currency = req.params.currency.toUpperCase();
+  const articleName = currencyWikiArticles[currency];
 
   if (!Object.keys(currencyWikiArticles).includes(currency)) {
     return res.json({ error: `${currency} is not a valid currency` });
   }
   const wikiResponse = await fetch(
-    `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&format=json&titles=${currencyWikiArticles[currency]}`
+    `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&format=json&titles=${articleName}`
   );
   const json = (await wikiResponse.json()) as WikipediaExtractsResponse;
   const originalHtml = Object.values(json.query.pages)[0]?.extract ?? "";
@@ -117,7 +118,11 @@ app.get("/article/:currency", async (req, res) => {
       });
     jsonDocument.push(line);
   }
-  res.json(jsonDocument);
+
+  res.json({
+    text: jsonDocument,
+    href: `https://en.wikipedia.org/wiki/${articleName}`,
+  });
 });
 
 app.listen(port, () => {
