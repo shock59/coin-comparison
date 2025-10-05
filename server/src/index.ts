@@ -16,6 +16,10 @@ type JsonSpan = {
   text: string;
   formatting?: string[];
 };
+type ArticleResponse = {
+  text: JsonSpan[][];
+  href: string;
+};
 
 const port = 3000;
 const validCurrencies = ["AUD", "EUR", "GBP", "USD", "VND"];
@@ -23,7 +27,7 @@ const currencyWikiArticles: Record<string, string> = {
   AUD: "Australian_dollar",
   EUR: "Euro",
   GBP: "Pound_sterling",
-  USD: "",
+  USD: "United_States_dollar",
 };
 
 const app = express();
@@ -119,10 +123,11 @@ app.get("/article/:currency", async (req, res) => {
     jsonDocument.push(line);
   }
 
-  res.json({
+  const response: ArticleResponse = {
     text: jsonDocument,
     href: `https://en.wikipedia.org/wiki/${articleName}`,
-  });
+  };
+  res.json(response);
 });
 
 app.listen(port, () => {
