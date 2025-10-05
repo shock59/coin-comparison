@@ -110,7 +110,10 @@ app.get("/article/:currency", async (req, res) => {
           if (child?.type == "text") {
             return {
               text: child.data,
-              formatting: [c.name == "b" ? "bold" : ""],
+              formatting: [
+                c.name == "b" ? "bold" : "",
+                c.name == "i" ? "italic" : "",
+              ],
             };
           }
         }

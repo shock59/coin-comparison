@@ -133,4 +133,8 @@
   .bold {
     font-weight: bold;
   }
+
+  .italic {
+    font-style: italic;
+  }
 </style>
