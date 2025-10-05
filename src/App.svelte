@@ -11,6 +11,10 @@
   let toAmount: number | undefined = $state();
 
   let infoPanel: Currency | undefined = $state();
+
+  function closeInfoPanel() {
+    infoPanel = undefined;
+  }
 </script>
 
 <main>
@@ -54,7 +58,7 @@
   </div>
 
   {#if infoPanel}
-    <InfoPanel currency={infoPanel} />
+    <InfoPanel currency={infoPanel} close={closeInfoPanel} />
   {/if}
 </main>
 

@@ -11,7 +11,7 @@
     href: string;
   };
 
-  let { currency }: { currency: Currency } = $props();
+  let { currency, close }: { currency: Currency; close: () => void } = $props();
   let article: ArticleResponse | undefined = $state();
 
   onMount(async () => {
@@ -24,7 +24,12 @@
 
 <div id="info-panel-container">
   <div id="info-panel">
-    <div id="info-title">About the {currency.name}</div>
+    <div id="info-title">
+      About the {currency.name}
+      <button class="material-symbols-outlined" id="close" onclick={close}>
+        close</button
+      >
+    </div>
     <div class="line"></div>
 
     {#if article}
@@ -89,6 +94,13 @@
   #info-title {
     font-weight: bold;
     font-size: 36px;
+    display: flex;
+    align-items: center;
+  }
+
+  #close {
+    font-size: inherit;
+    margin-left: auto;
   }
 
   .line {
