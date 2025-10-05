@@ -28,6 +28,7 @@ const currencyWikiArticles: Record<string, string> = {
   EUR: "Euro",
   GBP: "Pound_sterling",
   USD: "United_States_dollar",
+  VND: "Vietnamese_đồng",
 };
 
 const app = express();
