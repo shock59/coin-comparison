@@ -25,6 +25,7 @@
 <div id="info-panel-container">
   <div id="info-panel">
     <div id="info-title">
+      <img src={currency.flag} alt="{currency.code} flag" />
       About the {currency.name}
       <button class="material-symbols-outlined" id="close" onclick={close}>
         close</button
@@ -96,6 +97,12 @@
     font-size: 36px;
     display: flex;
     align-items: center;
+  }
+
+  #info-title img {
+    width: 54px;
+    height: 36px;
+    margin-right: 8px;
   }
 
   #close {

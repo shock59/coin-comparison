@@ -9,7 +9,12 @@ export type Currency = {
   symbol: string;
   decimalPlaces: number;
   denominations: Denomination[];
+  flag: string;
 };
+
+function flag(countryCode: string) {
+  return `https://purecatamphetamine.github.io/country-flag-icons/3x2/${countryCode.toUpperCase()}.svg`;
+}
 
 const currencies: Currency[] = [
   {
@@ -30,6 +35,7 @@ const currencies: Currency[] = [
       { name: "50 dollar note", value: 50 },
       { name: "100 dollar note", value: 100 },
     ],
+    flag: flag("AU"),
   },
   {
     name: "Euro",
@@ -52,6 +58,7 @@ const currencies: Currency[] = [
       { name: "100 euro note", value: 100 },
       { name: "200 euro note", value: 200 },
     ],
+    flag: flag("EU"),
   },
   {
     name: "Pound sterling (British pound)",
@@ -72,6 +79,7 @@ const currencies: Currency[] = [
       { name: "20 pound note", value: 20 },
       { name: "50 pound note", value: 50 },
     ],
+    flag: flag("GB"),
   },
   {
     name: "US dollar",
@@ -91,6 +99,7 @@ const currencies: Currency[] = [
       { name: "50 dollar bill", value: 50 },
       { name: "100 dollar bill", value: 100 },
     ],
+    flag: flag("US"),
   },
   {
     name: "Vietnamese Dong",
@@ -105,6 +114,7 @@ const currencies: Currency[] = [
       { name: "200 thousand dong bill", value: 200_000 },
       { name: "500 thousand dong bill", value: 500_000 },
     ],
+    flag: flag("VN"),
   },
 ];
 export default currencies;
