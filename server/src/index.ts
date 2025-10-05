@@ -48,8 +48,11 @@ async function getConversionRate(from: string, to: string) {
       usdConversionRate.regularMarketPrice != undefined
     ) {
       const conversionRate =
-        vndUsdConversionRate.regularMarketPrice *
-        usdConversionRate.regularMarketPrice;
+        to == "VND"
+          ? vndUsdConversionRate.regularMarketPrice *
+            usdConversionRate.regularMarketPrice
+          : usdConversionRate.regularMarketPrice /
+            vndUsdConversionRate.regularMarketPrice;
       return conversionRate;
     } else {
       return { error: "Failed currency conversion" };
