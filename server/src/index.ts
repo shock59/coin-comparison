@@ -39,8 +39,10 @@ async function getConversionRate(from: string, to: string) {
   if ([from, to].includes("VND")) {
     const vndUsdConversionRate = await yahooFinance.quote(`VND=X`);
     const usdConversionRate = await yahooFinance.quote(
-      `${from == "VND" ? from : ""}USD${to == "VND" ? to : ""}=X`
+      `${to == "VND" ? from : ""}USD${from == "VND" ? to : ""}=X`
     );
+    console.log(vndUsdConversionRate.regularMarketPrice);
+    console.log(usdConversionRate.regularMarketPrice);
     if (
       vndUsdConversionRate &&
       vndUsdConversionRate.regularMarketPrice != undefined &&
