@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import currencies from "../currencies";
 
   type JsonSpan = {
     text: string;
@@ -10,11 +11,13 @@
     href: string;
   };
 
-  let currency = "AUD";
+  let currency = currencies[1];
   let article: ArticleResponse | undefined = $state();
 
   onMount(async () => {
-    const response = await fetch(`http://127.0.0.1:3000/article/${currency}`);
+    const response = await fetch(
+      `http://127.0.0.1:3000/article/${currency.code}`
+    );
     article = (await response.json()) as ArticleResponse;
   });
 </script>
@@ -42,60 +45,17 @@
     <div class="line"></div>
 
     <div id="all-images">
-      <div class="image-container">
-        <img src="images/AUD/0.05.png" alt="A$0.05" />
-        Five cent coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/0.1.png" alt="A$0.10" />
-        Ten cent coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/0.2.png" alt="A$0.20" />
-        Twenty cent coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/0.5.png" alt="A$0.50" />
-        Fifty cent coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/1.png" alt="A$1.00" />
-        One dollar coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/2.png" alt="A$2.00" />
-        Two dollar coin
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/5.png" alt="A$5.00" />
-        Five dollar note
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/10.png" alt="A$10.00" />
-        10 dollar note
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/20.png" alt="A$20.00" />
-        20 dollar note
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/50.png" alt="A$50.00" />
-        50 dollar note
-      </div>
-
-      <div class="image-container">
-        <img src="images/AUD/100.png" alt="A$100.00" />
-        100 dollar note
-      </div>
+      {#each currency.denominations as denomination}
+        <div class="image-container">
+          <img
+            src="images/{currency.code}/{denomination.value}.png"
+            alt="{currency.symbol}{denomination.value.toFixed(
+              currency.decimalPlaces
+            )}"
+          />
+          {denomination.name}
+        </div>
+      {/each}
     </div>
   </div>
 </div>

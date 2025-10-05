@@ -15,21 +15,23 @@
   } = $props();
 
   function decideCoinImages(currency: Currency, amount: number) {
-    const denominations = currency.images.toSorted((a, b) => b - a);
+    const denominations = currency.denominations.toSorted(
+      (a, b) => b.value - a.value
+    );
     let images: CoinImage[] = [];
     amount *= 10 ** 6;
     for (let denomination of denominations) {
-      while (amount >= denomination * 10 ** 6) {
-        amount -= denomination * 10 ** 6;
-        images.push({ name: denomination });
+      while (amount >= denomination.value * 10 ** 6) {
+        amount -= denomination.value * 10 ** 6;
+        images.push({ name: denomination.value });
       }
     }
 
     if (amount > 0) {
       const lowestDenomination = denominations[denominations.length - 1];
       images.push({
-        name: lowestDenomination,
-        coverPercentage: 100 - (amount / lowestDenomination) * 100,
+        name: lowestDenomination.value,
+        coverPercentage: 100 - (amount / lowestDenomination.value) * 100,
       });
     }
 
