@@ -32,15 +32,17 @@
       equivalently that the price of a yen in relation to dollars is $1/141.
     </p>
     <p class="level-2">
-      Read more on <a href="https://en.wikipedia.org/wiki/Exchange_rate"
-        >Wikipedia</a
+      Read more on <a
+        href="https://en.wikipedia.org/wiki/Exchange_rate"
+        target="_blank">Wikipedia</a
       >
     </p>
   </div>
 
   <p>
     This website sources currency exchange rates from <a
-      href="https://finance.yahoo.com/">Yahoo Finance</a
+      href="https://finance.yahoo.com/"
+      target="_blank">Yahoo Finance</a
     >.
     <span class="disclaimer"
       >Note that exchange rate data is not sourced from all markets and may be
@@ -69,11 +71,13 @@
   <div class="line"></div>
 
   <p>
-    Coin Conversion was made by <a href="https://samv.me/">Sam Vuckovic</a>, you
-    can view the source code on
-    <a href="https://github.com/shock59/coin-comparison">GitHub</a>. If you have
-    any suggestions for additional features to include on this site, feel free
-    to contact me using the contact details on my website!
+    Coin Conversion was made by <a href="https://samv.me/" target="_blank"
+      >Sam Vuckovic</a
+    >, you can view the source code on
+    <a href="https://github.com/shock59/coin-comparison" target="_blank"
+      >GitHub</a
+    >. If you have any suggestions for additional features to include on this
+    site, feel free to contact me using the contact details on my website!
   </p>
 {/snippet}
 

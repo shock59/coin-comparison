@@ -52,7 +52,7 @@
     {/each}
 
     <p class="level-2">
-      Read more on <a href={article.href}>Wikipedia</a>
+      Read more on <a href={article.href} target="_blank">Wikipedia</a>
     </p>
   {:else}
     <p class="level-2">Loading...</p>
