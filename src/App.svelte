@@ -1,7 +1,7 @@
 <script lang="ts">
   import CoinDisplay from "./components/CoinDisplay.svelte";
   import ConversionForm from "./components/ConversionForm.svelte";
-  import InfoPanel from "./components/InfoPanel.svelte";
+  import CurrencyInfoPanel from "./components/CurrencyInfoPanel.svelte";
   import type { Currency } from "./currencies";
   import currencies from "./currencies";
 
@@ -10,14 +10,14 @@
   let fromAmount: number | undefined = $state();
   let toAmount: number | undefined = $state();
 
-  let infoPanel: Currency | undefined = $state();
+  let currencyInfoPanel: Currency | undefined = $state();
 
   function formatNumberWithCommas(n: string | undefined) {
     return n?.replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? undefined;
   }
 
   function closeInfoPanel() {
-    infoPanel = undefined;
+    currencyInfoPanel = undefined;
   }
 </script>
 
@@ -52,20 +52,20 @@
 
   <div class="row text-row" id="footer-row">
     <div class="grow">
-      <button onclick={() => (infoPanel = fromCurrency)}
+      <button onclick={() => (currencyInfoPanel = fromCurrency)}
         >Learn more about the {fromCurrency.name}</button
       >
     </div>
     <div class="center-column"></div>
     <div class="grow">
-      <button onclick={() => (infoPanel = toCurrency)}
+      <button onclick={() => (currencyInfoPanel = toCurrency)}
         >Learn more about the {toCurrency.name}</button
       >
     </div>
   </div>
 
-  {#if infoPanel}
-    <InfoPanel currency={infoPanel} close={closeInfoPanel} />
+  {#if currencyInfoPanel}
+    <CurrencyInfoPanel currency={currencyInfoPanel} close={closeInfoPanel} />
   {/if}
 </main>
 

@@ -1,81 +1,23 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
-  import { type Currency } from "../currencies";
+  import { type Snippet } from "svelte";
 
-  type JsonSpan = {
-    text: string;
-    formatting?: string[];
-  };
-  type ArticleResponse = {
-    text: JsonSpan[][];
-    href: string;
-  };
-
-  let { currency, close }: { currency: Currency; close: () => void } = $props();
-  let article: ArticleResponse | undefined = $state();
-  let audio: HTMLAudioElement | undefined = $state();
-
-  function playAnthem() {
-    audio = new Audio(`/audio/${currency.code}.ogg`);
-    audio.volume = 0.4;
-    audio.play();
-  }
-
-  onMount(async () => {
-    playAnthem();
-
-    const response = await fetch(
-      `http://127.0.0.1:3000/article/${currency.code}`
-    );
-    article = (await response.json()) as ArticleResponse;
-  });
-
-  onDestroy(() => {
-    audio?.pause();
-  });
+  let {
+    title,
+    content,
+    close,
+  }: { title: Snippet; content: Snippet; close: () => void } = $props();
 </script>
 
 <div id="info-panel-container">
   <div id="info-panel">
     <div id="info-title">
-      <img src={currency.flag} alt="{currency.code} flag" />
-      About the {currency.name}
+      {@render title()}
       <button class="material-symbols-outlined" id="close" onclick={close}>
         close</button
       >
     </div>
     <div class="line"></div>
-
-    {#if article}
-      {#each article.text as line}
-        <p>
-          {#each line as span}
-            <span class={span.formatting?.join(" ") ?? ""}>{span.text}</span>
-          {/each}
-        </p>
-      {/each}
-
-      <p class="level-2">
-        Read more on <a href={article.href}>Wikipedia</a>
-      </p>
-    {:else}
-      <p class="level-2">Loading...</p>
-    {/if}
-    <div class="line"></div>
-
-    <div id="all-images">
-      {#each currency.denominations as denomination}
-        <div class="image-container">
-          <img
-            src="images/{currency.code}/{denomination.value}.png"
-            alt="{currency.symbol}{denomination.value.toFixed(
-              currency.decimalPlaces
-            )}"
-          />
-          {denomination.name}
-        </div>
-      {/each}
-    </div>
+    {@render content()}
   </div>
 </div>
 
@@ -112,7 +54,7 @@
     align-items: center;
   }
 
-  #info-title img {
+  :global(.info-title-img) {
     width: 54px;
     height: 36px;
     margin-right: 8px;
@@ -128,45 +70,26 @@
     border-bottom: 2px rgba(255, 255, 255, 0.1) solid;
   }
 
-  p {
+  :global(p) {
     width: 100%;
     text-align: left;
   }
 
-  .level-2 {
+  :global(.level-2) {
     width: fit-content;
     opacity: 0.65;
     transition: 200ms;
   }
 
-  .level-2:hover {
+  :global(.level-2:hover) {
     opacity: 1;
   }
 
-  #all-images {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .image-container {
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 16px 0;
-  }
-
-  .image-container img {
-    margin-right: 16px;
-    height: 100px;
-  }
-
-  .bold {
+  :global(.bold) {
     font-weight: bold;
   }
 
-  .italic {
+  :global(.italic) {
     font-style: italic;
   }
 </style>

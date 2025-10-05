@@ -47,24 +47,28 @@
 
 <div class="coin-display">
   {#key amount}
-    {#each (() => decideCoinImages(currency, amount ?? 0))() as image}
-      <div>
-        <button onclick={playSound}>
-          <img
-            src="images/{currency.code}/{image.name}.png"
-            alt="{currency.symbol}{image.name.toFixed(currency.decimalPlaces)}"
-          />
-        </button>
+    {#key currency}
+      {#each (() => decideCoinImages(currency, amount ?? 0))() as image}
+        <div>
+          <button onclick={playSound}>
+            <img
+              src="images/{currency.code}/{image.name}.png"
+              alt="{currency.symbol}{image.name.toFixed(
+                currency.decimalPlaces
+              )}"
+            />
+          </button>
 
-        {#if image.coverPercentage}
-          <div
-            class="cover"
-            style="width: {image.coverPercentage}%; left: {100 -
-              image.coverPercentage}%"
-          ></div>
-        {/if}
-      </div>
-    {/each}
+          {#if image.coverPercentage}
+            <div
+              class="cover"
+              style="width: {image.coverPercentage}%; left: {100 -
+                image.coverPercentage}%"
+            ></div>
+          {/if}
+        </div>
+      {/each}
+    {/key}
   {/key}
 </div>
 
