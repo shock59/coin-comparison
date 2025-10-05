@@ -1,6 +1,12 @@
 <script lang="ts">
   import { type Snippet } from "svelte";
 
+  function containerClicked(event: MouseEvent) {
+    if ((event.target as Element).id == "info-panel-container") {
+      close();
+    }
+  }
+
   let {
     title,
     content,
@@ -8,7 +14,9 @@
   }: { title: Snippet; content: Snippet; close: () => void } = $props();
 </script>
 
-<div id="info-panel-container">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div id="info-panel-container" onclick={containerClicked}>
   <div id="info-panel">
     <div id="info-title">
       {@render title()}
