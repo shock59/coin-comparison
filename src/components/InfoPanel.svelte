@@ -65,7 +65,7 @@
     margin-left: auto;
   }
 
-  .line {
+  :global(.line) {
     margin-top: 8px;
     border-bottom: 2px rgba(255, 255, 255, 0.1) solid;
   }

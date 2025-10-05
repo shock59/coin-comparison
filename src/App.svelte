@@ -2,6 +2,7 @@
   import CoinDisplay from "./components/CoinDisplay.svelte";
   import ConversionForm from "./components/ConversionForm.svelte";
   import CurrencyInfoPanel from "./components/CurrencyInfoPanel.svelte";
+  import SiteInfoPanel from "./components/SiteInfoPanel.svelte";
   import type { Currency } from "./currencies";
   import currencies from "./currencies";
 
@@ -10,6 +11,7 @@
   let fromAmount: number | undefined = $state();
   let toAmount: number | undefined = $state();
 
+  let infoPanel: boolean = $state(false);
   let currencyInfoPanel: Currency | undefined = $state();
 
   function formatNumberWithCommas(n: string | undefined) {
@@ -56,7 +58,11 @@
         >Learn more about the {fromCurrency.name}</button
       >
     </div>
-    <div class="center-column"></div>
+    <div class="center-column">
+      <button onclick={() => (infoPanel = true)}
+        >Learn more about this website</button
+      >
+    </div>
     <div class="grow">
       <button onclick={() => (currencyInfoPanel = toCurrency)}
         >Learn more about the {toCurrency.name}</button
@@ -64,6 +70,9 @@
     </div>
   </div>
 
+  {#if infoPanel}
+    <SiteInfoPanel close={() => (infoPanel = false)} />
+  {/if}
   {#if currencyInfoPanel}
     <CurrencyInfoPanel currency={currencyInfoPanel} close={closeInfoPanel} />
   {/if}
