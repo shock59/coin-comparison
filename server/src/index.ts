@@ -1,9 +1,30 @@
 import express from "express";
 import yahooFinance from "yahoo-finance2";
 import cors from "cors";
+import * as cheerio from "cheerio";
+
+type WikipediaExtractsResponse = {
+  query: {
+    pages: {
+      [K in string]: {
+        extract: string;
+      };
+    };
+  };
+};
+type JsonSpan = {
+  text: string;
+  formatting?: string[];
+};
 
 const port = 3000;
 const validCurrencies = ["AUD", "EUR", "GBP", "USD", "VND"];
+const currencyWikiArticles: Record<string, string> = {
+  AUD: "Australian_dollar",
+  EUR: "Euro",
+  GBP: "Pound_sterling",
+  USD: "",
+};
 
 const app = express();
 app.use(cors());
@@ -56,6 +77,47 @@ app.get("/convert/:from/:to", async (req, res) => {
     req.params.to
   );
   res.json(conversionRate);
+});
+
+app.get("/article/:currency", async (req, res) => {
+  const currency = req.params.currency.toUpperCase();
+
+  if (!Object.keys(currencyWikiArticles).includes(currency)) {
+    return res.json({ error: `${currency} is not a valid currency` });
+  }
+  const wikiResponse = await fetch(
+    `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=1&format=json&titles=${currencyWikiArticles[currency]}`
+  );
+  const json = (await wikiResponse.json()) as WikipediaExtractsResponse;
+  const originalHtml = Object.values(json.query.pages)[0]?.extract ?? "";
+  const document = cheerio.load(originalHtml);
+
+  let jsonDocument: JsonSpan[][] = [];
+  for (let p of document("p")) {
+    if (p.type == "tag" && p.attribs.class == "mw-empty-elt") continue;
+
+    let line: JsonSpan[] = p.children
+      .map((c) => {
+        if (c.type == "text") {
+          return { text: c.data };
+        } else if (c.type == "tag") {
+          const child = c.children[0];
+          if (child?.type == "text") {
+            return {
+              text: child.data,
+              formatting: [c.name == "b" ? "bold" : ""],
+            };
+          }
+        }
+        return { text: "" };
+      })
+      .map((s) => {
+        s.text = s.text.replace("\n", "");
+        return s;
+      });
+    jsonDocument.push(line);
+  }
+  res.json(jsonDocument);
 });
 
 app.listen(port, () => {
