@@ -22,11 +22,13 @@ type ArticleResponse = {
 };
 
 const port = 3000;
-const validCurrencies = ["AUD", "EUR", "GBP", "USD", "VND"];
+const validCurrencies = ["AUD", "EUR", "JPY", "GBP", "CHF", "USD", "VND"];
 const currencyWikiArticles: Record<string, string> = {
   AUD: "Australian_dollar",
   EUR: "Euro",
+  JPY: "Japanese_yen",
   GBP: "Pound_sterling",
+  CHF: "Swiss_franc",
   USD: "United_States_dollar",
   VND: "Vietnamese_đồng",
 };
