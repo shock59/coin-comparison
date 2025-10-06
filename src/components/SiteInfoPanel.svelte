@@ -6,12 +6,12 @@
 </script>
 
 {#snippet title()}
-  About Coin Conversion
+  About Coin Comparison
 {/snippet}
 
 {#snippet content()}
   <p>
-    Coin Conversion is a website which allows you to visualise currency
+    Coin Comparison is a website which allows you to visualise currency
     conversion by showing you the equivalent coins and banknotes of various
     currencies. Currencies are converted using their exchange rates.
   </p>
@@ -71,7 +71,7 @@
   <div class="line"></div>
 
   <p>
-    Coin Conversion was made by <a href="https://samv.me/" target="_blank"
+    Coin Comparison was made by <a href="https://samv.me/" target="_blank"
       >Sam Vuckovic</a
     >, you can view the source code on
     <a href="https://github.com/shock59/coin-comparison" target="_blank"
