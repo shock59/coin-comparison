@@ -119,7 +119,7 @@ const currencies: Currency[] = [
       { name: "200 franc note", value: 200 },
       { name: "One thousand franc note", value: 1_000 },
     ],
-    flag: flag("VN"),
+    flag: flag("CH"),
   },
   {
     name: "US dollar",
@@ -142,7 +142,7 @@ const currencies: Currency[] = [
     flag: flag("US"),
   },
   {
-    name: "Vietnamese Dong",
+    name: "Vietnamese dong",
     code: "VND",
     symbol: "₫",
     decimalPlaces: 0,
