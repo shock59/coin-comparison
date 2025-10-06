@@ -29,4 +29,6 @@ The following currencies are currently supported:
 
 ## Technical details
 
-Coin Comparison is made up of two parts - a Svelte based frontend as well as an express based server that can be found in the `server` directory. You will need to install and run both of these if you want to host Coin Comparison yourself.
+Coin Comparison is made up of two parts - a Svelte based frontend as well as an express based server that can be found in the `server` directory. You will need to install and run both of these if you want to host Coin Comparison yourself. The server will serve all files in the `server/public` directory, so you can put the built Svelte project in there to serve it for convenience if you wish. Alternatively you can host the frontend and backend on different servers.
+
+You will also need to set up a .env file in both the main directory (for the frontend) and the server directory. The main .env file should contain a value for `VITE_API_URL` which will be the URL of the API server (e.g. `http://127.0.0.1:3000`). The server .env file should contain a value for `SERVER_PORT`, the port the server will run on.
