@@ -2,6 +2,10 @@ import express from "express";
 import yahooFinance from "yahoo-finance2";
 import cors from "cors";
 import * as cheerio from "cheerio";
+import dotenv from "dotenv";
+import process from "process";
+
+dotenv.config({ path: "../.env" });
 
 type WikipediaExtractsResponse = {
   query: {
@@ -21,7 +25,7 @@ type ArticleResponse = {
   href: string;
 };
 
-const port = 3000;
+const port = process.env.SERVER_PORT;
 const validCurrencies = ["AUD", "EUR", "JPY", "GBP", "CHF", "USD", "VND"];
 const currencyWikiArticles: Record<string, string> = {
   AUD: "Australian_dollar",
@@ -35,6 +39,7 @@ const currencyWikiArticles: Record<string, string> = {
 
 const app = express();
 app.use(cors());
+app.use(express.static("public"));
 
 async function getConversionRate(from: string, to: string) {
   from = from.toUpperCase();

@@ -36,7 +36,7 @@
 
   async function updateConversion() {
     const response = await fetch(
-      `http://localhost:3000/convert/${fromCurrency.code}/${toCurrency.code}`
+      `${import.meta.env.VITE_API_URL}/convert/${fromCurrency.code}/${toCurrency.code}`
     );
     conversionRate = await response.json();
     if (fromAmount == undefined) updateFromAmount();

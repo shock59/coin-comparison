@@ -27,7 +27,7 @@
     playAnthem();
 
     const response = await fetch(
-      `http://127.0.0.1:3000/article/${currency.code}`
+      `${import.meta.env.VITE_API_URL}/article/${currency.code}`
     );
     article = (await response.json()) as ArticleResponse;
   });
