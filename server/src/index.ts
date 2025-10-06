@@ -2,10 +2,8 @@ import express from "express";
 import yahooFinance from "yahoo-finance2";
 import cors from "cors";
 import * as cheerio from "cheerio";
-import dotenv from "dotenv";
+import "dotenv/config";
 import process from "process";
-
-dotenv.config({ path: "../.env" });
 
 type WikipediaExtractsResponse = {
   query: {
